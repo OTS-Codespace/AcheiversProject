@@ -1,7 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User  # Use Django's built-in User model
-from .models import UserProfile
 
 class RegistrationForm(forms.Form):
     full_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your full name'}))
@@ -34,8 +33,4 @@ class RegistrationForm(forms.Form):
         if User.objects.filter(username=username).exists():
             raise ValidationError("This username is already in use!")
         return username
-    
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['full_name', 'phone_number', 'birth_date', 'address', 'bio']    
+        

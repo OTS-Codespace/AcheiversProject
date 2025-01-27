@@ -1,0 +1,41 @@
+from django import forms
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User  # Use Django's built-in User model
+from .models import UserProfile
+
+class RegistrationForm(forms.Form):
+    full_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your full name'}))
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control item', 'placeholder': 'Enter strong password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control item', 'placeholder': 'confirm your password'}))  # Add Confirm Password
+    email = forms.EmailField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your email'}))
+    phone_number = forms.CharField(max_length=15, required=False, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your phone number'}))
+    birth_date = forms.DateField(required=False, widget=forms.TextInput(attrs={'class': 'form-control item', 'placeholder': 'Enter your birthday'}))
+
+    # Custom validation to check if passwords match
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError("Passwords do not match!")
+        return cleaned_data
+
+    # Custom validation to check if email already exists
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already in use!")
+        return email
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username is already in use!")
+        return username
+    
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['full_name', 'phone_number', 'birth_date', 'address', 'bio']    

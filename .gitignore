@@ -1,10 +1,1 @@
-# Ignore virtual environment folder
-venv/
-
-# Ignore other common files
-__pycache__/
-*.pyc
-*.pyo
-
-# Ignore database files (optional)
-db.sqlite3
+achiever_origin/

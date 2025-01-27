@@ -64,7 +64,11 @@ ROOT_URLCONF = 'achievers_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/ 'achievers_app/templates'],
+        'DIRS': [
+            BASE_DIR/ 'achievers_app/templates',
+            BASE_DIR/ 'user_manager_app/templates',
+        
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,6 +82,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'achievers_project.wsgi.application'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Database

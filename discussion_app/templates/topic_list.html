@@ -1,0 +1,11 @@
+
+
+{% block content %}
+  <h1>Topics</h1>
+  <ul>
+    {% for topic in topics %}
+      <li><a href="{% url 'topic_detail' topic.pk %}">{{ topic.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+

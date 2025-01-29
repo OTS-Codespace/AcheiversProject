@@ -117,3 +117,14 @@ def edit_profile_view(request):
         'profile': profile,
     }
     return render(request, 'profile_edit.html', context)
+
+
+    #  logout view 
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        messages.success(request, 'You have been logged out successfuly.')
+        return redirect('home')
+    else:
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+    
